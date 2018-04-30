@@ -1,22 +1,10 @@
-FROM appcelerator/alpine:3.6.0
+FROM appcelerator/alpine:latest
 
-ENV TELEGRAF_VERSION 1.3.2
+ENV TELEGRAF_VERSION 1.6.1
 
-
-RUN apk update && apk upgrade && \
-    apk --virtual build-deps add openssl git gcc musl-dev make binutils patch go && \
-    export GOPATH=/go && \
-    go version && \
-    go get -v github.com/influxdata/telegraf && \
-    cd $GOPATH/src/github.com/influxdata/telegraf && \
-    if [ $TELEGRAF_VERSION != "master" ]; then git checkout -q --detach "${TELEGRAF_VERSION}" ; fi && \
-    make && \
-    chmod +x $GOPATH/bin/* && \
-    mv $GOPATH/bin/* /bin/ && \
-    apk del build-deps && \
-    cd / && rm -rf /var/cache/apk/* $GOPATH && \
-    mkdir -p /etc/telegraf
-
+RUN apk -U add bash
+RUN curl https://dl.influxdata.com/telegraf/releases/telegraf-1.6.1_linux_arm64.tar.gz | tar -xzv -C / 
+ADD envtpl /usr/bin/envtpl
 EXPOSE 8094 9126
 
 ENV INFLUXDB_URL http://localhost:8086

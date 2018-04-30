@@ -58,7 +58,7 @@ done
 if [[ -n "$timer" ]]; then
   sleep $timer
 fi
-CMD="/bin/telegraf"
+CMD="/telegraf/usr/bin/telegraf"
 CMDARGS="-config /etc/telegraf/telegraf.conf"
 if [[ $config -eq 1 ]]; then
   exec "$CMD" $CMDARGS config
