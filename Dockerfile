@@ -1,9 +1,9 @@
 FROM appcelerator/alpine:latest
 
 ARG TELEGRAF_VERSION
-
 RUN apk -U add bash
-RUN curl https://dl.influxdata.com/telegraf/releases/telegraf-$TELEGRAF_VERSION_linux_arm64.tar.gz | tar -xzv -C / 
+ENV TELEGRAF_URL="https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_arm64.tar.gz"
+RUN curl $TELEGRAF_URL | tar -xzv -C /
 ADD envtpl /usr/bin/envtpl
 EXPOSE 8094 9126
 
