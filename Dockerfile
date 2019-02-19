@@ -1,7 +1,7 @@
-FROM appcelerator/alpine:latest
+FROM alpine:latest
 
 ARG TELEGRAF_VERSION
-RUN apk -U add bash
+RUN apk -U add bash curl
 ENV TELEGRAF_URL="https://dl.influxdata.com/telegraf/releases/telegraf-${TELEGRAF_VERSION}_linux_arm64.tar.gz"
 RUN curl $TELEGRAF_URL | tar -xzv -C /
 ADD envtpl /usr/bin/envtpl
